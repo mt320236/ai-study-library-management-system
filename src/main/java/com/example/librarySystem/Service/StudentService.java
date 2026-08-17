@@ -3,6 +3,9 @@ package com.example.librarySystem.Service;
 import com.example.librarySystem.Entity.Payment;
 import com.example.librarySystem.Entity.Seat;
 import com.example.librarySystem.Entity.Student;
+import com.example.librarySystem.Exceptions.SeatAlreadyOccupiedException;
+import com.example.librarySystem.Exceptions.SeatNotFoundException;
+import com.example.librarySystem.Exceptions.StudentNotFoundException;
 import com.example.librarySystem.Repository.SeatRepository;
 import com.example.librarySystem.Repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -34,7 +37,7 @@ public class StudentService {
     }
 
     public Student updateStudent(Long id,Student student) {
-        Student existingStudent=studentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Paymment not found"));
+        Student existingStudent=studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student with id "+id+" not found"));
         existingStudent.setEmail(student.getEmail());
 
         existingStudent.setName(student.getName());
@@ -45,10 +48,10 @@ public class StudentService {
 
     }
     public void assignSeat(Long studentId,Long seatId){
-        Student student=studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("Student not found"));
-        Seat seat=seatRepository.findById(seatId).orElseThrow(() -> new IllegalArgumentException("Seat not found"));
+        Student student=studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException("Student with Id "+studentId+" not found"));
+        Seat seat=seatRepository.findById(seatId).orElseThrow(() -> new SeatNotFoundException("Seat with Id "+seatId+" not found"));
         if(!seat.isAvailable()){
-            throw new IllegalArgumentException("Seat Already Occupied");
+            throw new SeatAlreadyOccupiedException("Seat with Id "+seatId+" is already occupied");
         }
         student.setSeat(seat);
         seat.setAvailable(false);
