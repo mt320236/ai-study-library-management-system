@@ -44,5 +44,16 @@ public class GlobalExceptionHandler {
 
 
     }
+    @ExceptionHandler(FeeNotFoundException.class)
+    public ResponseEntity<Map<String,Object>> seatAlreadyOccupiedExcpetionHandler(FeeNotFoundException feeNotFoundException){
+        Map<String,Object> errorResponse=new HashMap<>();
+        errorResponse.put("message",feeNotFoundException.getMessage());
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put("status", HttpStatus.NOT_FOUND.value());
+        errorResponse.put("error","BAD REQUEST");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+
+
+    }
 
 }

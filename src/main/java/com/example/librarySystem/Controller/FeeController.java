@@ -41,4 +41,20 @@ public class FeeController {
         feeService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Fee deleted");
     }
+    @PostMapping("/student/{studentId}")
+    public ResponseEntity<Fee> createFeeForStudent(@PathVariable Long studentId){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(feeService.createFeeForStudent(studentId));
+
+    }
+    @PostMapping("/{feeId}/paid")
+    public ResponseEntity<Fee> markFeeAsPaid(@PathVariable Long feeId){
+        return ResponseEntity.status(HttpStatus.OK).body(feeService.markFeeAsPaid(feeId));
+    }
+
+    @GetMapping("/overdue")
+    public ResponseEntity<List<Fee>> getOverDueFees(){
+        return ResponseEntity.status(HttpStatus.OK).body(feeService.getOverDueFees());
+
+    }
 }
