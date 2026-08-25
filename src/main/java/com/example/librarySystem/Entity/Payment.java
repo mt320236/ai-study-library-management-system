@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Payment {
@@ -11,29 +12,29 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double amount;
-    private LocalDate paymentDate;
+    private LocalDateTime paymentDateTime;
+    private String transactionMode;
+    private String transactionId;
+
+    @OneToOne
+    @JoinColumn(name = "fee_id")
+    private Fee fee;
+
+
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="student_id")
+    @JoinColumn(name = "student_id")
     private Student student;
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
 
     public Payment() {
     }
 
-    public Payment(Long id, double amount, LocalDate paymentDate,Student student) {
-        this.id = id;
+    public Payment(double amount, LocalDateTime paymentDateTime, String transactionMode, String transactionId, Student student) {
         this.amount = amount;
-        this.paymentDate = paymentDate;
-        this.student=student
-        ;
+        this.paymentDateTime = paymentDateTime;
+        this.transactionMode = transactionMode;
+        this.transactionId = transactionId;
+        this.student = student;
     }
 
     public double getAmount() {
@@ -44,6 +45,46 @@ public class Payment {
         this.amount = amount;
     }
 
+    public LocalDateTime getPaymentDateTime() {
+        return paymentDateTime;
+    }
+
+    public void setPaymentDateTime(LocalDateTime paymentDateTime) {
+        this.paymentDateTime = paymentDateTime;
+    }
+
+    public String getTransactionMode() {
+        return transactionMode;
+    }
+
+    public void setTransactionMode(String transactionMode) {
+        this.transactionMode = transactionMode;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public Fee getFee() {
+        return fee;
+    }
+
+    public void setFee(Fee fee) {
+        this.fee = fee;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     public Long getId() {
         return id;
     }
@@ -51,12 +92,5 @@ public class Payment {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public LocalDate getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(LocalDate paymentDate) {
-        this.paymentDate = paymentDate;
-    }
 }
+

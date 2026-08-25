@@ -47,7 +47,7 @@ public class FeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(feeService.createFeeForStudent(studentId));
 
     }
-    @PostMapping("/{feeId}/paid")
+    @PutMapping("/{feeId}/paid")
     public ResponseEntity<Fee> markFeeAsPaid(@PathVariable Long feeId){
         return ResponseEntity.status(HttpStatus.OK).body(feeService.markFeeAsPaid(feeId));
     }

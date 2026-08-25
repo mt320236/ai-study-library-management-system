@@ -1,6 +1,7 @@
 package com.example.librarySystem.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -14,6 +15,9 @@ public class Fee {
     private LocalDate dueDate;
     private String status;
     @JsonIgnore
+    @OneToOne(mappedBy = "fee")
+    private Payment payment;
+    @JsonIgnoreProperties({"fees","payments","seat"})
     @ManyToOne
     @JoinColumn(name="student_id")
     private Student student;

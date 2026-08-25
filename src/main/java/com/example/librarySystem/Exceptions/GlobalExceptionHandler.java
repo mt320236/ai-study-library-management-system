@@ -45,13 +45,24 @@ public class GlobalExceptionHandler {
 
     }
     @ExceptionHandler(FeeNotFoundException.class)
-    public ResponseEntity<Map<String,Object>> seatAlreadyOccupiedExcpetionHandler(FeeNotFoundException feeNotFoundException){
+    public ResponseEntity<Map<String,Object>> feeNotFoundExcpetionHandler(FeeNotFoundException feeNotFoundException){
         Map<String,Object> errorResponse=new HashMap<>();
         errorResponse.put("message",feeNotFoundException.getMessage());
         errorResponse.put("timestamp", LocalDateTime.now());
         errorResponse.put("status", HttpStatus.NOT_FOUND.value());
-        errorResponse.put("error","BAD REQUEST");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        errorResponse.put("error","NOT FOUND");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+
+
+    }
+    @ExceptionHandler(PaymentNotFoundExcpetion.class)
+    public ResponseEntity<Map<String,Object>> paymentNotFoundExcpetionHandler(PaymentNotFoundExcpetion paymentNotFoundExcpetion){
+        Map<String,Object> errorResponse=new HashMap<>();
+        errorResponse.put("message",paymentNotFoundExcpetion.getMessage());
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put("status", HttpStatus.NOT_FOUND.value());
+        errorResponse.put("error","NOT FOUND");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 
 
     }

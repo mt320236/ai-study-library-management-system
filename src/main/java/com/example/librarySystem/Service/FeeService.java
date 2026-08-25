@@ -34,10 +34,10 @@ public class FeeService {
     }
 
     public Fee seeFeeById(Long id) {
-        return feeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Fee Details not found"));
+        return feeRepository.findById(id).orElseThrow(() -> new FeeNotFoundException("Fee with Id "+id+" not found"));
     }
     public Fee updateFeeById(Fee fee,Long id){
-        Fee existing_fee=feeRepository.findById(id).orElseThrow(() -> new  IllegalArgumentException("Fee not found"));
+        Fee existing_fee=feeRepository.findById(id).orElseThrow(() -> new FeeNotFoundException("Fee with Id "+" not found"));
         existing_fee.setAmount(fee.getAmount());
         existing_fee.setDueDate(fee.getDueDate());
         existing_fee.setStatus(fee.getStatus());

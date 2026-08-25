@@ -44,4 +44,15 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.OK).body("Payment deleted");
 
     }
+    @PutMapping("/pay/{feeId}")
+    public ResponseEntity<Payment> markFeeAsPaid(
+            @PathVariable Long feeId,
+            @RequestParam double amount,
+            @RequestParam String transactonMode)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(paymentService.markFeeaAsPaid(feeId,amount,transactonMode));
+
+
+
+    }
 }
