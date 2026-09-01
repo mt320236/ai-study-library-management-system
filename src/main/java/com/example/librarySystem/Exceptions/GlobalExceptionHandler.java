@@ -2,8 +2,10 @@ package com.example.librarySystem.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -66,5 +68,28 @@ public class GlobalExceptionHandler {
 
 
     }
+    @ExceptionHandler(AIServiceExcpetion.class)
+    public ResponseEntity<Map<String,Object>> AIServicExcpetionHandler(AIServiceExcpetion aiServiceExcpetion){
+        Map<String,Object> errorResponse=new HashMap<>();
+        errorResponse.put("message",aiServiceExcpetion.getMessage());
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put("status", HttpStatus.SERVICE_UNAVAILABLE.value());
+        errorResponse.put("error","SERVICE UNAVAILABLE");
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorResponse);
+
+
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String,Object>> validationExcpetionHandler(MethodArgumentNotValidException methodArgumentNotValidException){
+        Map<String,Object> errorResponse=new HashMap<>();
+        errorResponse.put("message",methodArgumentNotValidException.getBindingResult().getFieldError().getDefaultMessage());
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
+        errorResponse.put("error","BAD REQUEST");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+
+
+    }
+
 
 }
